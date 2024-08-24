@@ -4,7 +4,7 @@ import 'package:student_attendence/Widgets/custom_button.dart';
 import '../Widgets/custom_textfeild.dart';
 import '../Widgets/vertical_spacing.dart';
 
-class TeacherLoginScreen extends StatelessWidget {
+class StudentLoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return

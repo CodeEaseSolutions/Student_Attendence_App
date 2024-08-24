@@ -63,7 +63,9 @@ class TeacherLoginScreen extends StatelessWidget {
                               keyBoardType: TextInputType.number,
                             ),
                             VerticalSpacing(size: 40),
-                            CustomButton(btnText: "LOGIN",)
+                            CustomButton(btnText: "LOGIN",callback: (){
+                              Navigator.pushReplacementNamed(context, "/student-login-screen");
+                            },)
                           ],
                         ),
                       ),

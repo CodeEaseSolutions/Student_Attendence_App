@@ -27,7 +27,6 @@ class CustomTextFeild extends StatelessWidget {
       width: MediaQuery.of(context).size.width*0.85,
       child: TextFormField(
         autovalidateMode: AutovalidateMode.onUserInteraction,
-        style: TextStyle(color:  Colors.white),
         maxLength: maxLength,
         enabled: enable,
         keyboardType: keyBoardType,
