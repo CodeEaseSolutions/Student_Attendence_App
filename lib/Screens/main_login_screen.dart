@@ -36,12 +36,12 @@ class MainLoginScreen extends StatelessWidget {
                                 children:[
                                   VerticalSpacing(size: 30),
                                   CircleAvatar(
-                                    radius: 110,
-                                    backgroundColor: Colors.orange,
+                                    radius: 90,
+                                    backgroundColor:  Color(0xFF0B5C98),
                                     child:
                                     CircleAvatar(
-                                      radius: 105,
-                                      backgroundImage:AssetImage("assets/images/student_login.png"),
+                                      radius: 85,
+                                      backgroundImage:AssetImage("assets/images/user2.png"),
                                     ),
 
                                   ),
@@ -69,12 +69,12 @@ class MainLoginScreen extends StatelessWidget {
                               children:[
                                 VerticalSpacing(size: 30),
                                 CircleAvatar(
-                                  radius: 110,
-                                  backgroundColor: Colors.orange,
+                                  radius: 90,
+                                  backgroundColor:  Color(0xFF0B5C98),
                                   child:
                                   CircleAvatar(
-                                    radius: 105,
-                                    backgroundImage:AssetImage("assets/images/student_login.png"),
+                                    radius: 85,
+                                    backgroundImage:AssetImage("assets/images/user2.png"),
                                   ),
 
                                 ),
@@ -88,7 +88,7 @@ class MainLoginScreen extends StatelessWidget {
                       )),
                     ],
                     options: CarouselOptions(
-                        height: MediaQuery.of(context).size.height*0.55,
+                        height: MediaQuery.of(context).size.height*0.5,
                         enlargeCenterPage: true,
                         autoPlay: true,
                         autoPlayCurve: Curves.fastOutSlowIn,

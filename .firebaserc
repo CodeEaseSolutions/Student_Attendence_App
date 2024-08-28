@@ -1,0 +1,9 @@
+{
+  "projects": {
+    "help": "studentattendenceapp-8ef4c",
+    "default": "studentattendenceapp-8ef4c"
+  },
+  "targets": {},
+  "etags": {},
+  "dataconnectEmulatorConfig": {}
+}

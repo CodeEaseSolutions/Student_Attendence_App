@@ -1,10 +1,40 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:student_attendence/Widgets/custom_button.dart';
 
 import '../Widgets/custom_textfeild.dart';
 import '../Widgets/vertical_spacing.dart';
+import '../services/sharedPreferences/shared_preferences_service.dart';
 
 class TeacherLoginScreen extends StatelessWidget {
+  String password="";
+  String name="";
+  final form_key = GlobalKey<FormState>();
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+  checkLoginDetails(var context) async{
+    try{
+      QuerySnapshot  documents = await firestore.collection("teachers").get();
+      for(QueryDocumentSnapshot document in documents.docs){
+        if(document['password'] == password){
+          await SharedPreferencesService().setTeacherLoginStatus(status: true);
+          await SharedPreferencesService().setStudentLoginStatus(status: false);
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('$name Login Successfully...'),
+          ));
+          Navigator.pushNamedAndRemoveUntil(context, "/teacher-dashboard-screen",(route)=>false,arguments: name);
+          return;
+        }
+      }
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Invalid Details'),
+      ));
+      return;
+    }catch(e){
+      print(e.toString());
+      return;
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return
@@ -19,12 +49,12 @@ class TeacherLoginScreen extends StatelessWidget {
                   VerticalSpacing(size: 65),
                   CircleAvatar(
                     radius: 100,
-                    backgroundColor: Colors.orange,
+                    backgroundColor: Color(0xFF0B5C98),
                     child: Stack(
                       children: [
                         CircleAvatar(
                           radius: 95,
-                          backgroundImage:AssetImage("assets/images/student_login.png"),
+                          backgroundImage:AssetImage("assets/images/user1.png"),
                         ),
                       ],
                     ),
@@ -41,6 +71,7 @@ class TeacherLoginScreen extends StatelessWidget {
                       ),
                     ),
                     child: Form(
+                      key: form_key,
                       child: SingleChildScrollView(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -52,20 +83,24 @@ class TeacherLoginScreen extends StatelessWidget {
                             CustomTextFeild(
                               label: "Name",
                               getValue: (value) {
+                                name=value;
                               },
-                              keyBoardType: TextInputType.number,
+
                             ),
                             VerticalSpacing(size: 20),
                             CustomTextFeild(
                               label: "Password",
                               getValue: (value) {
+                                password=value;
                               },
                               keyBoardType: TextInputType.number,
                             ),
                             VerticalSpacing(size: 40),
                             CustomButton(btnText: "LOGIN",callback: (){
-                              Navigator.pushReplacementNamed(context, "/student-login-screen");
-                            },)
+                              if(form_key.currentState!.validate()){
+                                checkLoginDetails(context);
+                              }
+                              },)
                           ],
                         ),
                       ),

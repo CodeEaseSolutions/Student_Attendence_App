@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {
@@ -6,11 +8,15 @@ class CustomButton extends StatelessWidget {
   Color? bgColor;
   Color? btnTextColor;
   Color? btnBorderColor;
+  double? btnHorizontalPadding;
+  double? btnVerticalPadding;
   CustomButton({this.btnText,
     this.callback,
     this.bgColor,
     this.btnTextColor=Colors.white,
-    this.btnBorderColor=Colors.transparent
+    this.btnBorderColor=Colors.transparent,
+    this.btnHorizontalPadding=60,
+    this.btnVerticalPadding=18
   });
   @override
   Widget build(BuildContext context) {
@@ -19,7 +25,7 @@ class CustomButton extends StatelessWidget {
         callback!();
       },
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 60),
+        padding: EdgeInsets.symmetric(horizontal:btnHorizontalPadding!),
         child: Text(btnText ?? "Submit",
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
       ),
@@ -27,7 +33,7 @@ class CustomButton extends StatelessWidget {
         elevation: 4,
           foregroundColor: btnTextColor,
           backgroundColor: bgColor!=null ? bgColor :Color(0xFF0B5C98),
-          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 18),
+          padding: EdgeInsets.symmetric(horizontal: 10, vertical: btnVerticalPadding!),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),

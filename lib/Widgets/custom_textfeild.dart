@@ -25,7 +25,8 @@ class CustomTextFeild extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width*0.85,
-      child: TextFormField(
+      child:
+      TextFormField(
         autovalidateMode: AutovalidateMode.onUserInteraction,
         maxLength: maxLength,
         enabled: enable,
