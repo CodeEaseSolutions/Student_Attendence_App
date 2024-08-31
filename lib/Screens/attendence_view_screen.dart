@@ -63,13 +63,13 @@ class AttendenceViewScreen extends StatelessWidget {
                           width: 100,
                           height: 100,
                           child: CircularProgressIndicator(
-                            value: presentage/100,
+                            value:  presentage>0?presentage/100:1,
                             strokeWidth: 5,
-                            color:  Color(0xFF0B5C98),
+                            color: presentage > 0 ?  Color(0xFF0B5C98):Colors.red,
                           ),
                         ),
                         Text(
-                          '${(presentage).toStringAsFixed(1)}%',
+    presentage>0?'${(presentage).toStringAsFixed(1)}%':"0%",
                           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                         ),
                       ],

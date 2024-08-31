@@ -10,7 +10,6 @@ plugins {
 
 apply plugin: 'com.google.gms.google-services'
 
-
 android {
     namespace = "com.example.student_attendence"
     compileSdk = flutter.compileSdkVersion

@@ -57,40 +57,42 @@ class _TeacherDashboardScreenState extends State<TeacherDashboardScreen> {
           children: [
 
             VerticalSpacing(size: 30),
-            Wrap(
-              runSpacing: 10,
-              spacing: 8,
-              direction: Axis.horizontal,
-              children: [
-                CustomCard(
-                    cardText: "ATTENDENCE",
-                    cardIcon: Icons.bookmark_added,
-                    callback:(){
-                      Navigator.pushNamed(context, "/attendence-screen");
-                    }
-                ),
-                CustomCard(
-                    cardText: "ADD COURSE",
-                    cardIcon: Icons.book,
-                    callback:(){
-Navigator.pushNamed(context, '/add-course-screen');
-                    }
-                ),
-                CustomCard(
-                    cardText: "ALL STUDENTS",
-                    cardIcon: Icons.person,
-                    callback:(){
-                      Navigator.pushNamed(context, '/all-students-screen');
-                    }
-                ),
-                CustomCard(
-                    cardText: "ALL COURSES",
-                    cardIcon: Icons.table_view,
-                    callback:(){
-                      Navigator.pushNamed(context, '/view-courses-screen');
-                    }
-                ),
-              ],
+            Center(
+              child: Wrap(
+                runSpacing: 10,
+                spacing: 8,
+                direction: Axis.horizontal,
+                children: [
+                  CustomCard(
+                      cardText: "ATTENDENCE",
+                      cardIcon: Icons.bookmark_added,
+                      callback:(){
+                        Navigator.pushNamed(context, "/attendence-screen");
+                      }
+                  ),
+                  CustomCard(
+                      cardText: "ADD COURSE",
+                      cardIcon: Icons.book,
+                      callback:(){
+              Navigator.pushNamed(context, '/add-course-screen');
+                      }
+                  ),
+                  CustomCard(
+                      cardText: "ALL STUDENTS",
+                      cardIcon: Icons.person,
+                      callback:(){
+                        Navigator.pushNamed(context, '/all-students-screen');
+                      }
+                  ),
+                  CustomCard(
+                      cardText: "ALL COURSES",
+                      cardIcon: Icons.table_view,
+                      callback:(){
+                        Navigator.pushNamed(context, '/view-courses-screen');
+                      }
+                  ),
+                ],
+              ),
             )
           ],
         ),

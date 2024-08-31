@@ -29,6 +29,38 @@ class _StudentSignupScreenState extends State<StudentSignupScreen> {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   final FirebaseStorage _storage = FirebaseStorage.instance;
   String? _profileImage;
+  List<String>? courses=[];
+  List<String>? courseTiming=[];
+
+  getTimingBasedOnCourse() async{
+    if(course!="") {
+      try {
+        QuerySnapshot  documents = await firestore.collection("courses").get();
+        for (QueryDocumentSnapshot document in documents.docs) {
+          if(course.toLowerCase() == document["course"].toLowerCase()){
+            courseTiming  = List<String>.from(document['timing']);
+            break;
+          }
+        }
+        setState(() {
+        });
+      } catch (e) {
+        print(e.toString());
+      }
+    }
+  }
+
+  getAllCourses() async {
+    try {
+      QuerySnapshot  documents = await firestore.collection("courses").get();
+      for (QueryDocumentSnapshot document in documents.docs) {
+          courses!.add(document["course"]);
+      }
+      setState(() {});
+    } catch (e) {
+        print(e.toString());
+    }
+  }
 
   Future<void> _pickImage() async {
     final ImagePicker _picker = ImagePicker();
@@ -118,12 +150,19 @@ class _StudentSignupScreenState extends State<StudentSignupScreen> {
     }
   }
 
+  @override
+  void initState() {
+    // TODO: implement initState
+      super.initState();
+      getAllCourses();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
+        child:
+         SingleChildScrollView(
           child: Container(
             color: Color(0xFF0B5C98).withOpacity(0.3),
             child: Column(
@@ -187,33 +226,18 @@ class _StudentSignupScreenState extends State<StudentSignupScreen> {
                           ),
                           VerticalSpacing(size: 20),
                           CustomDropDown(
-                            items: [
-                              'JAVA',
-                              'Python',
-                            ],
+                            items:courses,
                             hint: 'Course',
                             getValue: (value){
                               course = value;
                             },
+                            callback:(){
+                              getTimingBasedOnCourse();
+                            },
                           ),
                           VerticalSpacing(size: 20),
                           CustomDropDown(
-                            items: [
-                              '8-9AM',
-                              '9-10AM',
-                              '10-11AM',
-                              '11-12PM',
-                              '12-1PM',
-                              '1-2PM',
-                              '2-3PM',
-                              '3-4PM',
-                              '4-5PM',
-                              '5-6PM',
-                              '6-7PM',
-                              '7-8PM',
-                              '8-9PM',
-                              '9-10PM'
-                            ],
+                            items:courseTiming,
                             hint: "Timing",
                             getValue: (value){
                               timing = value;

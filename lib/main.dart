@@ -1,3 +1,5 @@
+import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,6 +20,14 @@ import 'package:student_attendence/Screens/webview_screen.dart';
 import 'Screens/teacher_login_screen.dart';
 import 'firebase_options.dart';
 
+
+// Callback function to be executed by the alarm
+void alarmCallback() {
+  print('Alarm triggered! Performing background task...');
+  updateDatabase();
+}
+
+
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([
@@ -27,12 +37,57 @@ void main() async{
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+
+  // Initialize Android Alarm Manager
+  await AndroidAlarmManager.initialize();
+
+  // Schedule a periodic alarm
+  AndroidAlarmManager.periodic(
+    Duration(minutes: 20),
+    0,
+    alarmCallback,
+    exact: true,  // Ensure the alarm is triggered exactly every 20 minutes
+    wakeup: true, // Wakes up the device if it's asleep
+  );
+
   runApp(MyApp());
 
 }
 
-class MyApp extends StatelessWidget {
+
+updateDatabase() async{
+  var firestore = FirebaseFirestore.instance;
+  try {
+    QuerySnapshot documents = await firestore.collection('student').get();
+    for (QueryDocumentSnapshot document in documents.docs) {
+      await firestore.collection('student').doc(document.id).update({
+        'status': true,
+      });
+    }
+    print('All documents updated successfully');
+  } catch (e) {
+    print('Error updating documents: $e');
+  }
+}
+
+
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
 
   @override
   Widget build(BuildContext context) {

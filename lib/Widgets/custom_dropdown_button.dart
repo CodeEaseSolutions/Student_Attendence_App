@@ -2,16 +2,19 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 
 class CustomDropDown extends StatefulWidget {
-  final List<String> items;
+  final List<String>? items;
   final String? hint;
   final Color? buttonColor;
-  Function(String value)? getValue;
+  final Function(String value)? getValue;
+  final VoidCallback? callback;
+
   CustomDropDown({
     Key? key,
-    required this.items,
+    this.items,
     this.hint,
     this.buttonColor,
     this.getValue,
+    this.callback,
   }) : super(key: key);
 
   @override
@@ -31,42 +34,46 @@ class _CustomDropDownState extends State<CustomDropDown> {
           style: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
-            color:  Color(0xFF0B5C98),
+            color: Color(0xFF0B5C98),
           ),
           overflow: TextOverflow.ellipsis,
         ),
-        items: widget.items
-            .map((String item) => DropdownMenuItem<String>(
+        items: (widget.items ?? []).map((String item) => DropdownMenuItem<String>(
           value: item,
           child: Text(
             item,
             style: const TextStyle(
               fontSize: 14,
-              color:  Color(0xFF0B5C98),
+              color: Color(0xFF0B5C98),
             ),
             overflow: TextOverflow.ellipsis,
           ),
-        ))
-            .toList(),
+        )).toList(),
         value: selectedValue,
         onChanged: (String? value) {
-          widget.getValue!(value!);
-          setState(() {
-            selectedValue = value;
-          });
+          if (value != null) {
+            if (widget.getValue != null) {
+              widget.getValue!(value);
+            }
+            setState(() {
+              selectedValue = value;
+            });
+            if (widget.callback != null) {
+              widget.callback!();
+            }
+          }
         },
         buttonStyleData: ButtonStyleData(
-          width: MediaQuery.of(context).size.width*0.85,
-          padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 10),
+          width: MediaQuery.of(context).size.width * 0.85,
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(11),
             border: Border.all(
-              color:  Color(0xFF0B5C98),
-              width: 2
+              color: Color(0xFF0B5C98),
+              width: 2,
             ),
             color: widget.buttonColor ?? Colors.transparent,
           ),
-          // elevation: 2,
         ),
         iconStyleData: const IconStyleData(
           icon: Icon(
@@ -79,7 +86,7 @@ class _CustomDropDownState extends State<CustomDropDown> {
         ),
         dropdownStyleData: DropdownStyleData(
           maxHeight: 200,
-          width: MediaQuery.of(context).size.width*0.85,
+          width: MediaQuery.of(context).size.width * 0.85,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(11),
             color: Colors.white,
